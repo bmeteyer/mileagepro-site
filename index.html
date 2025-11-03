@@ -1,254 +1,518 @@
-<!doctype html>
-<html lang="en">
+<!DOCTYPE html>
+<html>
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>MileagePro™ by WinWin – Smart Mileage Tracking</title>
-  <meta name="description" content="MileagePro by WinWin — business-grade mileage tracking with one-tap logging and instant Excel/CSV exports. IRS-ready reports for consultants and small businesses." />
-  <meta property="og:title" content="MileagePro™ by WinWin" />
-  <meta property="og:description" content="Business-grade mileage tracking. Log, export, and deduct every mile." />
-  <meta property="og:type" content="website" />
-  <meta property="og:image" content="https://placeholder.pics/svg/1200x630/0B3A5B-167DFF/FFFFFF-MileagePro" />
-  <meta property="og:url" content="https://bmeteyer.github.io/mileagepro-site/" />
-  <style>
-    :root{
-      --bg:#F5F7FA; --ink:#0B2239; --muted:#5F7182; --brand:#167DFF; --brand-dark:#0B3A5B;
-      --card:#fff; --ring:rgba(22,125,255,.28); --radius:14px;
-      --ok:#0bb57b; --warn:#ffb000; --danger:#e54b4d;
-    }
-    *{box-sizing:border-box}
-    body{margin:0;font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;background:var(--bg);color:var(--ink);line-height:1.55}
-    a{color:var(--brand);text-decoration:none}
-    a:hover{text-decoration:underline}
-    .wrap{max-width:1100px;margin:0 auto;padding:24px}
-    header{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:8px 0}
-    .brand{display:flex;align-items:center;gap:12px;text-decoration:none}
-    .logo{width:44px;height:44px;border-radius:12px;background:linear-gradient(135deg,var(--brand-dark),var(--brand));display:grid;place-items:center;color:#fff;font-weight:800;letter-spacing:.5px;box-shadow:0 8px 24px rgba(11,58,91,.25)}
-    .brand h1{font-size:18px;margin:0}
-    .tag{font-size:12px;color:var(--muted)}
-    .btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;padding:12px 18px;border-radius:12px;border:1px solid transparent;background:var(--brand);color:#fff;font-weight:600;cursor:pointer;transition:.2s ease;box-shadow:0 8px 20px rgba(22,125,255,.18)}
-    .btn:hover{transform:translateY(-1px)}
-    .btn.secondary{background:#fff;color:var(--brand);border-color:#dfe6ee;box-shadow:none}
-    .pill{background:#fff;border:1px solid #e4e9f0;border-radius:12px;padding:10px 14px;display:inline-flex;align-items:center;gap:10px;height:48px;min-width:200px;font-weight:600;color:var(--ink)}
-    .hero{margin-top:28px;display:grid;grid-template-columns:1.2fr .8fr;gap:28px;align-items:center}
-    .hero h2{font-size:44px;line-height:1.1;margin:.2em 0 .4em}
-    .hero p{font-size:18px;color:var(--muted);margin:0 0 18px}
-    .cta-row{display:flex;flex-wrap:wrap;gap:12px}
-    .phone{background:var(--card);border:1px solid #e6edf5;border-radius:28px;aspect-ratio:9/16;width:100%;max-width:370px;margin:auto;display:grid;place-items:center;box-shadow:0 24px 60px rgba(11,58,91,.12);overflow:hidden}
-    .screen{width:92%;height:92%;border-radius:22px;background:linear-gradient(180deg,#fff 0%,#f7fbff 100%);border:1px solid #e9eef5;display:grid;place-items:center;text-align:center;padding:18px}
-    .screen img{width:100%;height:auto;border-radius:12px;border:1px solid #d9e3ee}
-    .features{margin:54px 0;display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
-    .card{background:var(--card);border:1px solid #e6edf5;border-radius:var(--radius);padding:20px;box-shadow:0 10px 24px rgba(11,58,91,.06)}
-    .card h4{margin:0 0 .3em}
-    .muted{color:var(--muted)}
-    .email{background:linear-gradient(180deg,#fff,#f7fbff);border:1px solid #e6edf5;border-radius:18px;padding:22px;display:grid;gap:10px;justify-items:start}
-    .email h3{margin:.1em 0}
-    form{display:flex;gap:10px;width:100%;flex-wrap:wrap}
-    input[type="email"], input[type="text"], input[type="date"], input[type="number"]{
-      flex:1 1 220px;min-width:180px;height:46px;padding:0 14px;border-radius:12px;border:1px solid #dfe6ee;outline:none;font-size:16px;background:#fff
-    }
-    input:focus, select:focus{border-color:var(--brand);box-shadow:0 0 0 6px var(--ring)}
-    select{height:46px;border-radius:12px;border:1px solid #dfe6ee;padding:0 12px;background:#fff}
-    .small{font-size:13px;color:var(--muted)}
-    footer{margin:40px 0 20px;display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap}
-    .links{display:flex;gap:16px}
-    .chip{padding:3px 8px;background:#eef6ff;color:var(--brand-dark);border-radius:999px;font-size:12px;font-weight:700}
-    /* DEMO styles */
-    #demo{margin:48px 0 14px}
-    .demo-grid{display:grid;grid-template-columns:1fr 1fr;gap:18px}
-    .table-wrap{background:#fff;border:1px solid #e6edf5;border-radius:16px;padding:16px;overflow:auto}
-    table{width:100%;border-collapse:collapse}
-    th,td{padding:10px;border-bottom:1px solid #eef2f7;text-align:left;font-size:14px}
-    tr:last-child td{border-bottom:none}
-    .total{display:flex;justify-content:flex-end;gap:12px;align-items:center;margin-top:10px}
-    .badge-ok{color:#fff;background:var(--ok);padding:6px 10px;border-radius:10px;font-weight:700}
-    .row-actions button{background:#fff;border:1px solid #e4e9f0;border-radius:8px;padding:6px 10px;cursor:pointer}
-    .row-actions button:hover{background:#f5f7fa}
-    @media (max-width:980px){
-      .hero{grid-template-columns:1fr}
-      .cta-row{justify-content:flex-start}
-      .features{grid-template-columns:1fr}
-      .demo-grid{grid-template-columns:1fr}
-    }
-  </style>
+    <title>Mileage Tracker</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 0; padding: 20px; background: #f5f5f5; }
+        .container { max-width: 800px; margin: 0 auto; }
+        .login-box { background: white; padding: 40px; border-radius: 10px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); text-align: center; margin-top: 100px; }
+        .password-field { position: relative; margin: 20px 0; }
+        .password-input { width: 300px; padding: 12px; border: 2px solid #ddd; border-radius: 5px; font-size: 16px; }
+        .eye-btn { position: absolute; right: 10px; top: 50%; transform: translateY(-50%); background: none; border: none; cursor: pointer; font-size: 18px; }
+        .login-btn { background: #007bff; color: white; padding: 12px 30px; border: none; border-radius: 5px; cursor: pointer; font-size: 16px; margin-top: 15px; }
+        .login-btn:hover { background: #0056b3; }
+        .card { background: white; padding: 20px; margin: 20px 0; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+        .btn { padding: 10px 15px; margin: 5px; border: none; border-radius: 4px; cursor: pointer; }
+        .btn-blue { background: #007bff; color: white; }
+        .btn-green { background: #28a745; color: white; }
+        .btn-gray { background: #6c757d; color: white; }
+        .btn-red { background: #dc3545; color: white; }
+        .hidden { display: none; }
+        .error { color: red; margin: 10px 0; }
+        table { width: 100%; border-collapse: collapse; margin-top: 15px; }
+        th, td { padding: 10px; border-bottom: 1px solid #ddd; text-align: left; }
+        th { background: #f8f9fa; font-weight: bold; }
+        .modal { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.7); display: flex; align-items: center; justify-content: center; z-index: 1000; }
+        .modal-content { background: white; padding: 30px; border-radius: 8px; max-width: 600px; width: 90%; max-height: 80vh; overflow-y: auto; }
+        .tabs { display: flex; border-bottom: 2px solid #eee; margin-bottom: 20px; }
+        .tab { padding: 12px 20px; cursor: pointer; border-bottom: 3px solid transparent; background: #f8f9fa; margin-right: 5px; border-radius: 5px 5px 0 0; }
+        .tab.active { border-bottom-color: #007bff; background: white; font-weight: bold; }
+        .list-item { display: flex; justify-content: space-between; align-items: center; padding: 12px; background: #f8f9fa; margin: 8px 0; border-radius: 5px; border-left: 4px solid #007bff; }
+        .add-section { background: #f0f8ff; padding: 15px; border-radius: 5px; margin-bottom: 20px; }
+        input, select { padding: 8px; margin: 5px; border: 1px solid #ddd; border-radius: 3px; }
+    </style>
 </head>
 <body>
-  <div class="wrap">
-    <header>
-      <a class="brand" href="#" aria-label="MileagePro home">
-        <div class="logo" aria-hidden="true">MP</div>
-        <div>
-          <h1>MileagePro<span class="chip">™</span> by WinWin</h1>
-          <div class="tag">Smart mileage tracking for serious professionals</div>
-        </div>
-      </a>
-      <a class="btn secondary" href="#notify">Get Updates</a>
-    </header>
-
-    <main>
-      <!-- HERO -->
-      <section class="hero">
-        <div>
-          <h2>Log. Export. Deduct.<br/>Every mile, every time.</h2>
-          <p>One-tap trip logging, business/personal categorization, and instant Excel/CSV reports. Built by bookkeeping pros to keep you IRS-ready.</p>
-          <div class="cta-row">
-            <a class="pill" href="#" aria-label="Get it on Google Play (coming soon)"><span class="badge"></span> Get it on Google Play</a>
-            <a class="pill" href="#" aria-label="Download on the App Store (coming soon)"><span class="badge"></span> Download on the App Store</a>
-            <a class="btn" href="#demo">Try Live Demo</a>
-          </div>
-        </div>
-        <div class="phone" aria-hidden="true">
-          <div class="screen">
-            <!-- Replace src with your real screenshot when ready -->
-            <img src="https://placeholder.pics/svg/310x220/DEE7F2-FFFFFF/0B3A5B-Screenshot" alt="MileagePro screenshot placeholder">
-            <h3>Mileage Tracker</h3>
-            <p class="muted">Clean entries • Excel/CSV export • IRS-ready</p>
-          </div>
-        </div>
-      </section>
-
-      <!-- FEATURES -->
-      <section class="features" aria-label="Key features">
-        <article class="card"><h4>📱 Simple Logging</h4><p class="muted">Start/stop with one tap. Save purpose, category, and notes for each trip.</p></article>
-        <article class="card"><h4>📊 Instant Reports</h4><p class="muted">Export to Excel/CSV. Audit-friendly summaries ready for your books.</p></article>
-        <article class="card"><h4>🔒 Pro-Grade Accuracy</h4><p class="muted">Built by WinWin for consultants and small businesses who need reliable records.</p></article>
-      </section>
-
-      <!-- LIVE DEMO -->
-      <section id="demo">
-        <h3>Live Demo (no install)</h3>
-        <p class="muted">Add a few entries, see totals, and export a CSV you can open in Excel. Data is saved only in your browser (Local Storage).</p>
-        <div class="demo-grid">
-          <!-- Entry form -->
-          <div class="card">
-            <h4>Add Entry</h4>
-            <form id="entryForm" onsubmit="return false;">
-              <input type="date" id="date" required />
-              <input type="text" id="purpose" placeholder="Purpose (e.g., Client visit)" required />
-              <select id="category">
-                <option value="Business">Business</option>
-                <option value="Personal">Personal</option>
-              </select>
-              <input type="number" id="miles" step="0.1" min="0" placeholder="Miles" required />
-              <button class="btn" id="addBtn">Add</button>
-            </form>
-            <p class="small">Tip: Enter a few example trips to test totals and export.</p>
-          </div>
-
-          <!-- Table -->
-          <div class="table-wrap">
-            <table id="table">
-              <thead>
-                <tr>
-                  <th>Date</th><th>Purpose</th><th>Category</th><th style="text-align:right;">Miles</th><th></th>
-                </tr>
-              </thead>
-              <tbody></tbody>
-            </table>
-            <div class="total">
-              <strong>Total Miles:</strong> <span id="total" class="badge-ok">0.0</span>
-              <button class="btn secondary" id="exportBtn">Export CSV</button>
-              <button class="btn secondary" id="clearBtn">Clear</button>
+    <!-- Login Screen -->
+    <div id="loginScreen">
+        <div class="container">
+            <div class="login-box">
+                <h1>🚗 Mileage Tracker</h1>
+                <p>Enter password to access your mileage tracker</p>
+                
+                <div class="password-field">
+                    <input type="password" id="passwordInput" class="password-input" placeholder="Enter password">
+                    <button type="button" class="eye-btn" onclick="togglePasswordVisibility()">👁️</button>
+                </div>
+                
+                <div id="errorMessage" class="error hidden">Incorrect password! Try: mileage123</div>
+                
+                <button onclick="attemptLogin()" class="login-btn">Login</button>
+                
+                <p style="margin-top: 20px; color: #666; font-size: 14px;">
+                    Password hint: see password prg
+                </p>
             </div>
-          </div>
         </div>
-      </section>
+    </div>
 
-      <!-- EMAIL -->
-      <section id="notify" class="email" aria-label="Email signup">
-        <h3>Be first to try MileagePro<span class="chip">™</span></h3>
-        <p class="muted">Join our early access list for updates and launch offers.</p>
-        <!-- Replace YOUR_FORMSPREE_ID with your real endpoint when ready -->
-        <form action="https://formspree.io/f/YOUR_FORMSPREE_ID" method="POST">
-          <input type="email" name="email" placeholder="you@business.com" aria-label="Email address" required />
-          <button class="btn" type="submit">Get Updates</button>
-          <input type="hidden" name="form-name" value="mileagepro-waitlist" />
-        </form>
-        <p class="small">Prefer email? <a href="mailto:hello@mileagepro.app?subject=Early%20Access%20Request&body=Please%20add%20me%20to%20the%20MileagePro%20early%20access%20list.">Send us a note</a>.</p>
-      </section>
-    </main>
+    <!-- Main Mileage Tracker App -->
+    <div id="mainApp" class="hidden">
+        <div class="container">
+            <div class="card">
+                <h1>🚗 Mileage Tracker</h1>
+                <button class="btn btn-gray" onclick="showManageModal()">⚙️ Manage</button>
+                <button class="btn btn-blue" onclick="showAddEntryForm()">➕ Add New Entry</button>
+                <button class="btn btn-green" onclick="exportToCSV()">📥 Export Data</button>
+                <p style="margin-top: 15px; font-size: 18px;">
+                    <strong>Total Miles: <span id="totalMilesDisplay">0.0</span></strong>
+                </p>
+            </div>
 
-    <footer>
-      <div class="small">© 2025 Win Win Tax &amp; Bookkeeping. All rights reserved.</div>
-      <div class="links small">
-        <a href="#">Privacy</a>
-        <a href="#">Contact</a>
-        <a href="https://www.linkedin.com" rel="noopener">LinkedIn</a>
-        <a href="https://www.instagram.com" rel="noopener">Instagram</a>
-      </div>
-    </footer>
-  </div>
+            <!-- Add Entry Form -->
+            <div id="entryForm" class="card hidden">
+                <h2>Add Mileage Entry</h2>
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 10px;">
+                    <input type="date" id="entryDate" required>
+                    <input type="number" id="startingMileage" placeholder="Starting mileage" step="0.1">
+                    <input type="number" id="endingMileage" placeholder="Ending mileage" step="0.1">
+                    <input type="number" id="milesDriven" placeholder="Miles driven" step="0.1">
+                    <select id="clientName" required>
+                        <option value="">Select Client</option>
+                    </select>
+                    <select id="vehicleUsed" required>
+                        <option value="">Select Vehicle</option>
+                    </select>
+                    <input type="text" id="tripPurpose" placeholder="Purpose of trip" required style="grid-column: 1/-1;">
+                </div>
+                <br>
+                <button class="btn btn-blue" onclick="saveEntry()">💾 Save Entry</button>
+                <button class="btn btn-gray" onclick="cancelEntry()">❌ Cancel</button>
+            </div>
 
-  <!-- Demo logic (vanilla JS) -->
-  <script>
-    const storeKey = 'mp_demo_entries_v1';
-    const $ = s => document.querySelector(s);
-    const $$ = s => document.querySelectorAll(s);
+            <!-- Entries Display -->
+            <div class="card">
+                <h2>Your Mileage Entries</h2>
+                <div id="entriesDisplay">
+                    <p style="text-align: center; color: #666; margin: 30px 0;">
+                        No entries yet. Click "Add New Entry" to get started!
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
 
-    const state = {
-      entries: JSON.parse(localStorage.getItem(storeKey) || '[]')
-    };
+    <!-- Manage Modal -->
+    <div id="manageModal" class="modal" style="display: none;">
+        <div class="modal-content">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                <h2>⚙️ Manage Clients & Vehicles</h2>
+                <button onclick="hideManageModal()" style="background: #ff4444; color: white; border: none; font-size: 18px; cursor: pointer; padding: 8px 12px; border-radius: 4px; font-weight: bold;">✕ Close</button>
+            </div>
 
-    function save(){ localStorage.setItem(storeKey, JSON.stringify(state.entries)); }
-    function fmt(n){ return Number(n).toFixed(1); }
+            <!-- Tabs -->
+            <div class="tabs">
+                <div id="clientsTab" class="tab active" onclick="showManageTab('clients')">👥 Clients</div>
+                <div id="vehiclesTab" class="tab" onclick="showManageTab('vehicles')">🚗 Vehicles</div>
+            </div>
 
-    function render(){
-      const tbody = $('#table tbody');
-      tbody.innerHTML = '';
-      let total = 0;
-      state.entries.forEach((e, i) => {
-        total += Number(e.miles)||0;
-        const tr = document.createElement('tr');
-        tr.innerHTML = `
-          <td>${e.date||''}</td>
-          <td>${e.purpose||''}</td>
-          <td>${e.category||''}</td>
-          <td style="text-align:right;">${fmt(e.miles||0)}</td>
-          <td class="row-actions"><button data-idx="${i}" class="del">Delete</button></td>
-        `;
-        tbody.appendChild(tr);
-      });
-      $('#total').textContent = fmt(total);
-      $$('.del').forEach(btn => btn.onclick = (ev) => {
-        const idx = Number(ev.target.dataset.idx);
-        state.entries.splice(idx,1);
-        save(); render();
-      });
+            <!-- Delete Confirmation Banner -->
+            <div id="deleteConfirmBanner" class="hidden" style="background: #ffe6e6; border: 2px solid #ff9999; padding: 15px; border-radius: 5px; margin-bottom: 20px;">
+                <h4 style="color: #cc0000; margin: 0 0 10px 0;">⚠️ Confirm Deletion</h4>
+                <p id="deleteMessage" style="margin: 0 0 10px 0; color: #cc0000;"></p>
+                <button onclick="confirmDeletion()" class="btn btn-red">Delete</button>
+                <button onclick="cancelDeletion()" class="btn btn-gray">Cancel</button>
+            </div>
+
+            <!-- Clients Content -->
+            <div id="clientsContent">
+                <div class="add-section">
+                    <h3>➕ Add New Client</h3>
+                    <input type="text" id="newClientName" placeholder="Enter client name" style="width: 250px;">
+                    <button onclick="addNewClient()" class="btn btn-blue">Add Client</button>
+                </div>
+                <div id="clientsList"></div>
+            </div>
+
+            <!-- Vehicles Content -->
+            <div id="vehiclesContent" class="hidden">
+                <div class="add-section">
+                    <h3>➕ Add New Vehicle</h3>
+                    <input type="text" id="newVehicleName" placeholder="e.g., 2023 Honda Accord" style="width: 250px;">
+                    <button onclick="addNewVehicle()" class="btn btn-blue">Add Vehicle</button>
+                </div>
+                <div id="vehiclesList"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Global variables
+        let mileageEntries = [];
+        let availableClients = ['ABC Corporation', 'XYZ LLC', 'Smith & Associates'];
+        let availableVehicles = ['2023 Honda Accord', '2022 Toyota Camry', '2021 Ford F-150'];
+        let isPasswordVisible = false;
+        let pendingDelete = null;
+
+        // Password functions
+        function togglePasswordVisibility() {
+            const passwordInput = document.getElementById('passwordInput');
+            const eyeButton = document.querySelector('.eye-btn');
+            
+            if (isPasswordVisible) {
+                passwordInput.type = 'password';
+                eyeButton.textContent = '👁️';
+                isPasswordVisible = false;
+            } else {
+                passwordInput.type = 'text';
+                eyeButton.textContent = '🙈';
+                isPasswordVisible = true;
+            }
+        }
+
+        function attemptLogin() {
+            const enteredPassword = document.getElementById('passwordInput').value;
+            const errorDiv = document.getElementById('errorMessage');
+            
+            console.log('Password entered:', enteredPassword);
+            
+            if (enteredPassword === 'mileageB3v') {
+                console.log('Login successful!');
+                document.getElementById('loginScreen').classList.add('hidden');
+                document.getElementById('mainApp').classList.remove('hidden');
+                setupApp();
+            } else {
+                console.log('Login failed');
+                errorDiv.classList.remove('hidden');
+                document.getElementById('passwordInput').value = '';
+            }
+        }
+
+        // Allow Enter key to login
+        document.addEventListener('DOMContentLoaded', function() {
+            document.getElementById('passwordInput').addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    attemptLogin();
+                }
+            });
+        });
+
+        // Main app functions
+        function setupApp() {
+            document.getElementById('entryDate').value = new Date().toISOString().split('T')[0];
+            updateClientVehicleSelects();
+            updateDisplay();
+        }
+
+        function showAddEntryForm() {
+            document.getElementById('entryForm').classList.remove('hidden');
+            document.getElementById('entryDate').value = new Date().toISOString().split('T')[0];
+        }
+
+        function cancelEntry() {
+            document.getElementById('entryForm').classList.add('hidden');
+            clearEntryForm();
+        }
+
+        function clearEntryForm() {
+            document.getElementById('entryDate').value = new Date().toISOString().split('T')[0];
+            document.getElementById('startingMileage').value = '';
+            document.getElementById('endingMileage').value = '';
+            document.getElementById('milesDriven').value = '';
+            document.getElementById('clientName').value = '';
+            document.getElementById('vehicleUsed').value = '';
+            document.getElementById('tripPurpose').value = '';
+        }
+
+        function updateClientVehicleSelects() {
+            // Update client dropdown
+            const clientSelect = document.getElementById('clientName');
+            clientSelect.innerHTML = '<option value="">Select Client</option>';
+            availableClients.forEach(client => {
+                clientSelect.innerHTML += `<option value="${client}">${client}</option>`;
+            });
+
+            // Update vehicle dropdown
+            const vehicleSelect = document.getElementById('vehicleUsed');
+            vehicleSelect.innerHTML = '<option value="">Select Vehicle</option>';
+            availableVehicles.forEach(vehicle => {
+                vehicleSelect.innerHTML += `<option value="${vehicle}">${vehicle}</option>`;
+            });
+        }
+
+        function saveEntry() {
+            const date = document.getElementById('entryDate').value;
+            const startMiles = parseFloat(document.getElementById('startingMileage').value) || 0;
+            const endMiles = parseFloat(document.getElementById('endingMileage').value) || 0;
+            let totalMiles = parseFloat(document.getElementById('milesDriven').value) || 0;
+            const client = document.getElementById('clientName').value.trim();
+            const vehicle = document.getElementById('vehicleUsed').value.trim();
+            const purpose = document.getElementById('tripPurpose').value.trim();
+
+            // Auto-calculate if start and end provided
+            if (startMiles > 0 && endMiles > startMiles) {
+                totalMiles = endMiles - startMiles;
+            }
+
+            // Validation
+            if (!date || !client || !vehicle || !purpose || totalMiles <= 0) {
+                alert('Please fill in all required fields and ensure miles driven is greater than 0');
+                return;
+            }
+
+            // Save entry
+            const newEntry = {
+                id: Date.now(),
+                date: date,
+                startMiles: startMiles || null,
+                endMiles: endMiles || null,
+                totalMiles: totalMiles,
+                client: client,
+                vehicle: vehicle,
+                purpose: purpose
+            };
+
+            mileageEntries.push(newEntry);
+            updateDisplay();
+            cancelEntry();
+            alert('Entry saved successfully!');
+        }
+
+        function deleteEntry(entryId) {
+            if (confirm('Are you sure you want to delete this entry?')) {
+                mileageEntries = mileageEntries.filter(entry => entry.id !== entryId);
+                updateDisplay();
+            }
+        }
+
+        function updateDisplay() {
+            const totalMiles = mileageEntries.reduce((sum, entry) => sum + entry.totalMiles, 0);
+            document.getElementById('totalMilesDisplay').textContent = totalMiles.toFixed(1);
+
+            const displayDiv = document.getElementById('entriesDisplay');
+            
+            if (mileageEntries.length === 0) {
+                displayDiv.innerHTML = '<p style="text-align: center; color: #666; margin: 30px 0;">No entries yet. Click "Add New Entry" to get started!</p>';
+                return;
+            }
+
+            let tableHTML = `
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Date</th>
+                            <th>Start Miles</th>
+                            <th>End Miles</th>
+                            <th>Miles Driven</th>
+                            <th>Client</th>
+                            <th>Vehicle</th>
+                            <th>Purpose</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+            `;
+
+            mileageEntries.sort((a, b) => new Date(b.date) - new Date(a.date)).forEach(entry => {
+                tableHTML += `
+                    <tr>
+                        <td>${entry.date}</td>
+                        <td>${entry.startMiles ? entry.startMiles.toFixed(1) : '-'}</td>
+                        <td>${entry.endMiles ? entry.endMiles.toFixed(1) : '-'}</td>
+                        <td><strong>${entry.totalMiles.toFixed(1)}</strong></td>
+                        <td>${entry.client}</td>
+                        <td>${entry.vehicle}</td>
+                        <td>${entry.purpose}</td>
+                        <td><button class="btn btn-red" onclick="deleteEntry(${entry.id})">🗑️ Delete</button></td>
+                    </tr>
+                `;
+            });
+
+            tableHTML += '</tbody></table>';
+            displayDiv.innerHTML = tableHTML;
+        }
+
+        function exportToCSV() {
+            if (mileageEntries.length === 0) {
+                alert('No data to export');
+                return;
+            }
+
+            let csvContent = 'Date,Start Mileage,End Mileage,Miles Driven,Client,Vehicle,Purpose\n';
+            
+            mileageEntries.forEach(entry => {
+                csvContent += `${entry.date},${entry.startMiles || ''},${entry.endMiles || ''},${entry.totalMiles},"${entry.client}","${entry.vehicle}","${entry.purpose}"\n`;
+            });
+
+            const blob = new Blob([csvContent], { type: 'text/csv' });
+            const url = window.URL.createObjectURL(blob);
+            const link = document.createElement('a');
+            link.href = url;
+            link.download = 'mileage_report.csv';
+            link.click();
+            window.URL.revokeObjectURL(url);
+        }
+
+        // Manage Modal Functions
+        function showManageModal() {
+            document.getElementById('manageModal').style.display = 'flex';
+            updateManageDisplay();
+        }
+
+        function hideManageModal() {
+            document.getElementById('manageModal').style.display = 'none';
+            cancelDeletion();
+        }
+
+        function showManageTab(tabName) {
+            // Update tab appearance
+            document.getElementById('clientsTab').classList.remove('active');
+            document.getElementById('vehiclesTab').classList.remove('active');
+            document.getElementById(tabName + 'Tab').classList.add('active');
+
+            // Show/hide content
+            if (tabName === 'clients') {
+                document.getElementById('clientsContent').classList.remove('hidden');
+                document.getElementById('vehiclesContent').classList.add('hidden');
+            } else {
+                document.getElementById('vehiclesContent').classList.remove('hidden');
+                document.getElementById('clientsContent').classList.add('hidden');
+            }
+        }
+
+        function addNewClient() {
+            const newClientName = document.getElementById('newClientName').value.trim();
+            if (!newClientName) {
+                alert('Please enter a client name');
+                return;
+            }
+            if (availableClients.includes(newClientName)) {
+                alert('This client already exists');
+                return;
+            }
+            availableClients.push(newClientName);
+            document.getElementById('newClientName').value = '';
+            updateManageDisplay();
+            updateClientVehicleSelects();
+        }
+
+        function addNewVehicle() {
+            const newVehicleName = document.getElementById('newVehicleName').value.trim();
+            if (!newVehicleName) {
+                alert('Please enter a vehicle description');
+                return;
+            }
+            if (availableVehicles.includes(newVehicleName)) {
+                alert('This vehicle already exists');
+                return;
+            }
+            availableVehicles.push(newVehicleName);
+            document.getElementById('newVehicleName').value = '';
+            updateManageDisplay();
+            updateClientVehicleSelects();
+        }
+
+        function promptDeleteClient(clientName) {
+            pendingDelete = { type: 'client', name: clientName };
+            document.getElementById('deleteMessage').textContent = `Are you sure you want to delete client: "${clientName}"?`;
+            document.getElementById('deleteConfirmBanner').classList.remove('hidden');
+        }
+
+        function promptDeleteVehicle(vehicleName) {
+            pendingDelete = { type: 'vehicle', name: vehicleName };
+            document.getElementById('deleteMessage').textContent = `Are you sure you want to delete vehicle: "${vehicleName}"?`;
+            document.getElementById('deleteConfirmBanner').classList.remove('hidden');
+        }
+
+        function confirmDeletion() {
+            if (!pendingDelete) return;
+            
+            if (pendingDelete.type === 'client') {
+                availableClients = availableClients.filter(c => c !== pendingDelete.name);
+            } else if (pendingDelete.type === 'vehicle') {
+                availableVehicles = availableVehicles.filter(v => v !== pendingDelete.name);
+            }
+            
+            updateManageDisplay();
+            updateClientVehicleSelects();
+            cancelDeletion();
+        }
+
+        function cancelDeletion() {
+            pendingDelete = null;
+            document.getElementById('deleteConfirmBanner').classList.add('hidden');
+        }
+
+        function updateManageDisplay() {
+            // Update clients list
+            const clientsList = document.getElementById('clientsList');
+            clientsList.innerHTML = '<h3>📋 Current Clients:</h3>';
+            if (availableClients.length === 0) {
+                clientsList.innerHTML += '<p style="color: #666;">No clients added yet.</p>';
+            } else {
+                availableClients.forEach(client => {
+                    clientsList.innerHTML += `
+                        <div class="list-item">
+                            <span><strong>${client}</strong></span>
+                            <button onclick="promptDeleteClient('${client}')" class="btn btn-red">🗑️ Delete</button>
+                        </div>
+                    `;
+                });
+            }
+
+            // Update vehicles list
+            const vehiclesList = document.getElementById('vehiclesList');
+            vehiclesList.innerHTML = '<h3>🚗 Current Vehicles:</h3>';
+            if (availableVehicles.length === 0) {
+                vehiclesList.innerHTML += '<p style="color: #666;">No vehicles added yet.</p>';
+            } else {
+                availableVehicles.forEach(vehicle => {
+                    vehiclesList.innerHTML += `
+                        <div class="list-item">
+                            <span><strong>${vehicle}</strong></span>
+                            <button onclick="promptDeleteVehicle('${vehicle}')" class="btn btn-red">🗑️ Delete</button>
+                        </div>
+                    `;
+                });
+            }
+        }
+    </script>
+
+<!-- MileagePro simple browser persistence (GitHub Pages safe) -->
+<script>
+(function () {
+  const KEY = 'mp_autosave_v1';
+  try {
+    const raw = localStorage.getItem(KEY);
+    if (raw) {
+      const saved = JSON.parse(raw);
+      if (saved.vehicles) window.vehicles = saved.vehicles;
+      if (saved.clients)  window.clients  = saved.clients;
+      if (saved.entries)  window.entries  = saved.entries;
+      if (saved.settings) window.settings = saved.settings;
     }
+  } catch (e) { console.warn('Autosave restore failed', e); }
 
-    $('#addBtn').onclick = () => {
-      const d = $('#date').value;
-      const p = $('#purpose').value.trim();
-      const c = $('#category').value;
-      const m = $('#miles').value;
-      if(!d || !p || m==='' ){ alert('Please fill date, purpose, and miles.'); return; }
-      state.entries.push({date:d, purpose:p, category:c, miles:Number(m)});
-      save(); render();
-      $('#entryForm').reset();
-      $('#date').focus();
-    };
+  function autosave() {
+    try {
+      const pack = {
+        vehicles: window.vehicles || [],
+        clients:  window.clients  || [],
+        entries:  window.entries  || [],
+        settings: window.settings || {}
+      };
+      localStorage.setItem(KEY, JSON.stringify(pack));
+    } catch (e) { console.warn('Autosave save failed', e); }
+  }
 
-    $('#clearBtn').onclick = () => {
-      if(confirm('Clear all demo entries?')){
-        state.entries = []; save(); render();
-      }
-    };
-
-    $('#exportBtn').onclick = () => {
-      if(!state.entries.length){ alert('No entries to export.'); return; }
-      const header = ['Date','Purpose','Category','Miles'];
-      const rows = state.entries.map(e => [e.date, e.purpose, e.category, fmt(e.miles)]);
-      const csv = [header, ...rows].map(r => r.map(v => `"${String(v).replace(/"/g,'""')}"`).join(',')).join('\r\n');
-      const blob = new Blob([csv], {type:'text/csv;charset=utf-8;'});
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement('a');
-      a.href = url; a.download = 'mileagepro_demo.csv';
-      document.body.appendChild(a); a.click(); a.remove();
-      URL.revokeObjectURL(url);
-    };
-
-    // initial render
-    render();
-  </script>
+  window.addEventListener('beforeunload', autosave);
+  setInterval(autosave, 10000);
+  window.MP = {
+    save: autosave,
+    reset: () => { localStorage.removeItem(KEY); location.reload(); },
+    dump: () => JSON.parse(localStorage.getItem(KEY) || '{}')
+  };
+})();
+</script>
 </body>
 </html>
